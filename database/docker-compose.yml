@@ -1,17 +1,12 @@
 version: '3.8'
+
+networks:
+  micro_network:
+    external:
+      name: micro_network
+
+      
 services:
-  create_order_service:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    command: 'python create_order_service.py'
-    ports:
-      - 5000:5000
-    volumes: 
-      - .:/app
-    depends_on: 
-      - db
-  
   db:
     image: mysql:5.7.22
     restart: always
@@ -20,6 +15,8 @@ services:
       MYSQL_USER: root
       MYSQL_PASSWORD: root
       MYSQL_ROOT_PASSWORD: root
+    networks:
+      - micro_network
     volumes:
       - .dbdata:/var/lib/mysql
     ports:

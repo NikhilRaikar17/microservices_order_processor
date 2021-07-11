@@ -1,0 +1,18 @@
+version: '3.8'
+
+networks:
+  micro_network:
+    external:
+      name: micro_network
+
+services:
+  generate_orders_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    volumes: 
+      - .:/app
+    networks:
+      - micro_network
