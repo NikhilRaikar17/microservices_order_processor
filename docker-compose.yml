@@ -23,6 +23,14 @@ services:
       - .:/calculate_order
     depends_on: 
       - db
+
+  queue:
+    build:
+      context: .
+      dockerfile: ./calculate_order/Dockerfile
+    command: 'python -u calculate_order/consumer.py'
+    depends_on:
+      - db
   
   db:
     image: mysql:5.7.22

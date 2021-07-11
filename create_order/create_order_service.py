@@ -25,7 +25,7 @@ def index():
     try:
         db.session.commit()
         order_id = new_order.order_id
-        publish(body=order_id)
+        publish(body=f"{order_id}")
         return 'New order added'
     except Exception as e:
         print(e)
