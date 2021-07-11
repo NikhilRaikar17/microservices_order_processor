@@ -1,9 +1,6 @@
-#from dataclasses import dataclass
 from flask import Flask, jsonify, abort
 from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
-import requests,random
-#from producer import publish
+import random
 import pymysql
 
 app = Flask(__name__)

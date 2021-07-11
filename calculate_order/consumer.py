@@ -1,4 +1,4 @@
-import pika, json, requests,jsonify
+import pika,requests,jsonify
 
 params = pika.URLParameters('amqps://kzevgcua:bCcYfIw0tFS3Zq4Fso_qo7_AvQ6dlQNP@rat.rmq2.cloudamqp.com/kzevgcua')
 
