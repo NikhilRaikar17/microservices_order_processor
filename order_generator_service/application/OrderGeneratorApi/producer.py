@@ -8,4 +8,4 @@ channel = connection.channel()
 
 
 def publish(body):
-    channel.basic_publish(exchange='', routing_key='calculate_order_service', body=body)
+    channel.basic_publish(exchange='', routing_key='process_orders', body=body)

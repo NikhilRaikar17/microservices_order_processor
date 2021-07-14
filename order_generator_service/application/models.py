@@ -1,7 +1,7 @@
 from . import db
 
-class orders(db.Model):
-    order_id = db.Column(db.Integer, primary_key=True)
+class Orders(db.Model):
+    order_id = db.Column(db.Integer, primary_key=True,unique=True)
     symbol = db.Column(db.String(200))
     quantity = db.Column(db.Integer)
 

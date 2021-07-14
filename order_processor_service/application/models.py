@@ -2,7 +2,7 @@ from . import db
 
 class order_process(db.Model):
     id = db.Column(db.Integer,primary_key=True)
-    order_id = db.Column(db.Integer)
+    order_id = db.Column(db.Integer,unique=True)
     execution_price = db.Column(db.Float)
 
     def to_json(self):

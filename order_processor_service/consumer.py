@@ -1,4 +1,5 @@
 import pika,requests
+from application.OrderProcessorApi.api.OrderInfo import ExecutionPriceClient
 
 params = pika.URLParameters('amqps://kzevgcua:bCcYfIw0tFS3Zq4Fso_qo7_AvQ6dlQNP@rat.rmq2.cloudamqp.com/kzevgcua')
 
@@ -6,13 +7,13 @@ connection = pika.BlockingConnection(params)
 
 channel = connection.channel()
 
-channel.queue_declare(queue='calculate_order_service')
+channel.queue_declare(queue='process_orders')
 
 def callback(ch,method,properties,body):
     order_id = int(body)
-    req = requests.get(f'http://docker.for.mac.localhost:5001/exec_price/{order_id}')
+    ExecutionPriceClient.calculate(order_id)
 
-channel.basic_consume(queue='calculate_order_service',on_message_callback=callback,auto_ack=True)
+channel.basic_consume(queue='process_orders',on_message_callback=callback,auto_ack=True)
 
 print("Starting Queue")
 
