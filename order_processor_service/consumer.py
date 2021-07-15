@@ -15,7 +15,7 @@ def callback(ch,method,properties,body):
 
 channel.basic_consume(queue='process_orders',on_message_callback=callback,auto_ack=True)
 
-print("Starting Queue")
+print("Starting Queue,waiting for Order ID")
 
 channel.start_consuming()
 channel.close()

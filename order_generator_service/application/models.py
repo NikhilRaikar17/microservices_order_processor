@@ -1,9 +1,10 @@
 from . import db
 
 class Orders(db.Model):
-    order_id = db.Column(db.Integer, primary_key=True,unique=True)
-    symbol = db.Column(db.String(200))
-    quantity = db.Column(db.Integer)
+    __tablename__ = 'Orders'
+    order_id = db.Column(db.Integer, primary_key=True,unique=True,nullable=False)
+    symbol = db.Column(db.String(200),nullable=False)
+    quantity = db.Column(db.Integer,nullable=False)
 
     def to_json(self):
         return {

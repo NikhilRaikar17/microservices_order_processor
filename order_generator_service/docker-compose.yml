@@ -6,7 +6,8 @@ networks:
       name: micro_network
 
 services:
-  generate_orders_service:
+  order_generator_service:
+    container_name: order_generator
     build:
       context: .
       dockerfile: Dockerfile
