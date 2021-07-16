@@ -21,6 +21,10 @@ This service is used to generate orders every two seconds.
 ## Order-processor-service
 This services communicates with the order-generator-service and gets the newly added order_id and quantity and processes the OrderExecutionPrice and stores it in a seperate table.
 
+## Communication Protocol
+The two microservices are communicating via RABBITMQ message broker service. Inorder to get RabbitMq messae broker as a service CloudAMQP is used. 
+> The communication protocol used creates an external dependency, which could have been solved by normal JSON requests too. This has been done just to demonstrate the whole project.
+
 ## Microservices Setup and Configuration
 To launch the end-to-end microservices application perform the following:
 
