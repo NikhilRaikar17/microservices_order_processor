@@ -2,16 +2,64 @@
 This is a order processing task. There are two micro services, one to push the orders into the database and the other is responsible to collect that order and process and perform calculations on them. These microservice internally communicate through RabbitMQ.
 
 ## Project Architecture
- ![](./images/architecture_diagram.PNG)
+ ![Architecture Diagram](images/architecture_diagram.png)
 
 There are two microservices which will communicate with each other and process orders and calculate an OrderExecutionPrice. The order_generatore_service microservice is the one which generates orders every 2 seconds and update it in the database. It also publishes the order_id into the queue for further process. The second microservices will collect the published order_id from the queue and verify it with the database to check whether the order_exists. Once the confirmation is recieved it further calculates the order execution price. Once the order execution price is calculated it outputs the execution price to the standard output and further adds it to the database. If we want to calculate the total orders processed and the average execution price it can be easily calculated by taking the average of all from the database.
 
 ## Project Structure
 The Python Flask based microservices project is composed of the following: 
-* [Database]()
-* [Order-generator-service]()
-* [Order-processor-service]()
+* [Database](#Database)
+* [Order-generator-service](#Order-generator-service)
+* [Order-processor-service](#Order-processor-service)
 
+## Database
+The database used is MySql, which contains two tables, Orders table is used to store the order_ids with its quantity and order_process is used to store order_ids(FK) and its OrderExecutionPrice.
+
+## Order-generator-service
+This service is used to generate orders every two seconds. 
+
+## Order-processor-service
+This services communicates with the order-generator-service and gets the newly added order_id and quantity and processes the OrderExecutionPrice and stores it in a seperate table.
+
+## Communication Protocol
+The two microservices are communicating via RABBITMQ message broker service. Inorder to get RabbitMq messae broker as a service CloudAMQP is used. 
+> The communication protocol used creates an external dependency, which could have been solved by normal JSON requests too. This has been done just to demonstrate the whole project.
+
+## Source Code Structure
+```
+Microservices-OrderProcessor
+	
+	|-- database                    	# database as service
+	
+	|-- images                      	# images of architecture and screenshots of results
+	
+	|-- order_generator_service     	# Generates orders every two seconds(First microservice)
+		|-- application            
+			|-- OrderGeneratorApi 		
+				|-- producer.py     	# Message broker, publishes order_ids to second service
+				|-- routes.py			# Containes Application logic with routes
+			|-- models.py         		# Database models of application
+		|-- Dockerfile                  # Configure the whole service as container
+		|-- config.py                   # Flask Application config file
+		|-- docker-compose.yml          # Docker compose file
+		|-- requirements.txt            # Packages needed for the application
+		|-- run.py                      # Main file which serves as a starting point for the service
+		
+	|-- order_processor_service      	# Processes every order (second microservice)
+		|-- application            
+			|-- OrderProcessorApi 		
+				|-- api
+					|-- OrderInfo.py    # Api calls config
+				|-- routes.py           # Custom routes which containes application logic
+			|-- models.py         		# Database models
+		|-- Dockerfile					# Configure the whole service as container
+		|-- consumer.py					# Message Broker to collect order_ids and process them
+		|-- consumer_dockerfile         # Docker file for consumer
+		|-- config.py					# Flask application config
+		|-- docker-compose.yml			# Docker compose file
+		|-- requirements.txt			# Packages needed for the application
+		|-- run.py           			# Main file which serves as a starting point for the service
+```
 ## Microservices Setup and Configuration
 To launch the end-to-end microservices application perform the following:
 
@@ -47,6 +95,7 @@ Create database tables for order_generator_service
 ```
 docker-compose exec generate_orders_service flask shell
 ```
+
 
 Opens up a shell, please enter the following below.
 ```
@@ -118,6 +167,9 @@ cd integartion
 python -m unittest test_integration
 ```
 This will run all of the basic integartion tests defined. 
+
+> Please note TRUNCATE command is called on the same database when running tests, this is not a good practise but has been
+done just for experimental purposes. Although this would not be an ideal situation in the real scenario.
 
 
 ## Docker Commands:
