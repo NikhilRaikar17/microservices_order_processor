@@ -129,6 +129,9 @@ python -m unittest test_integration
 ```
 This will run all of the basic integartion tests defined. 
 
+> Please note TRUNCATE command is called on the same database when running tests, this is not a good practise but has been
+done just for experimental purposes. Although this would not be an ideal situation in the real scenario.
+
 
 ## Docker Commands:
 
