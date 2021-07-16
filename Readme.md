@@ -8,7 +8,7 @@ There are two microservices which will communicate with each other and process o
 
 ## Project Structure
 The Python Flask based microservices project is composed of the following: 
-* [Database](https://gitlab.com/nikhilraikar88/microservices-orderprocessor#introduction)
+* [Database](https://gitlab.com/nikhilraikar88/microservices-orderprocessor#Database)
 * [Order-generator-service]()
 * [Order-processor-service]()
 
