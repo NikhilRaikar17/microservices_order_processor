@@ -25,6 +25,41 @@ This services communicates with the order-generator-service and gets the newly a
 The two microservices are communicating via RABBITMQ message broker service. Inorder to get RabbitMq messae broker as a service CloudAMQP is used. 
 > The communication protocol used creates an external dependency, which could have been solved by normal JSON requests too. This has been done just to demonstrate the whole project.
 
+## Source Code Structure
+```
+Microservices-OrderProcessor
+	
+	|-- database                    	# database as service
+	
+	|-- images                      	# images of architecture and screenshots of results
+	
+	|-- order_generator_service     	# Generates orders every two seconds(First microservice)
+		|-- application            
+			|-- OrderGeneratorApi 		
+				|-- producer.py     	# Message broker, publishes order_ids to second service
+				|-- routes.py			# Containes Application logic with routes
+			|-- models.py         		# Database models of application
+		|-- Dockerfile                  # Configure the whole service as container
+		|-- config.py                   # Flask Application config file
+		|-- docker-compose.yml          # Docker compose file
+		|-- requirements.txt            # Packages needed for the application
+		|-- run.py                      # Main file which serves as a starting point for the service
+		
+	|-- order_processor_service      	# Processes every order (second microservice)
+		|-- application            
+			|-- OrderProcessorApi 		
+				|-- api
+					|-- OrderInfo.py    # Api calls config
+				|-- routes.py           # Custom routes which containes application logic
+			|-- models.py         		# Database models
+		|-- Dockerfile					# Configure the whole service as container
+		|-- consumer.py					# Message Broker to collect order_ids and process them
+		|-- consumer_dockerfile         # Docker file for consumer
+		|-- config.py					# Flask application config
+		|-- docker-compose.yml			# Docker compose file
+		|-- requirements.txt			# Packages needed for the application
+		|-- run.py           			# Main file which serves as a starting point for the service
+```
 ## Microservices Setup and Configuration
 To launch the end-to-end microservices application perform the following:
 
