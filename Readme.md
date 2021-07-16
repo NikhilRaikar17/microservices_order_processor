@@ -2,15 +2,24 @@
 This is a order processing task. There are two micro services, one to push the orders into the database and the other is responsible to collect that order and process and perform calculations on them. These microservice internally communicate through RabbitMQ.
 
 ## Project Architecture
- ![](./images/architecture_diagram.PNG)
+ ![Architecture Diagram](images/architecture_diagram.png)
 
 There are two microservices which will communicate with each other and process orders and calculate an OrderExecutionPrice. The order_generatore_service microservice is the one which generates orders every 2 seconds and update it in the database. It also publishes the order_id into the queue for further process. The second microservices will collect the published order_id from the queue and verify it with the database to check whether the order_exists. Once the confirmation is recieved it further calculates the order execution price. Once the order execution price is calculated it outputs the execution price to the standard output and further adds it to the database. If we want to calculate the total orders processed and the average execution price it can be easily calculated by taking the average of all from the database.
 
 ## Project Structure
 The Python Flask based microservices project is composed of the following: 
-* [Database]()
+* [Database](https://gitlab.com/nikhilraikar88/microservices-orderprocessor#introduction)
 * [Order-generator-service]()
 * [Order-processor-service]()
+
+## Database
+The database used is MySql, which contains two tables, Orders table is used to store the order_ids with its quantity and order_process is used to store order_ids(FK) and its OrderExecutionPrice.
+
+## Order-generator-service
+This service is used to generate orders every two seconds. 
+
+## Order-processor-service
+This services communicates with the order-generator-service and gets the newly added order_id and quantity and processes the OrderExecutionPrice and stores it in a seperate table.
 
 ## Microservices Setup and Configuration
 To launch the end-to-end microservices application perform the following:
@@ -47,6 +56,7 @@ Create database tables for order_generator_service
 ```
 docker-compose exec generate_orders_service flask shell
 ```
+
 
 Opens up a shell, please enter the following below.
 ```
