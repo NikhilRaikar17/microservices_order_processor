@@ -1,4 +1,4 @@
-# UltraTendency Microservices Task
+# Microservices Task
 This is a order processing task. There are two micro services, one to push the orders into the database and the other is responsible to collect that order and process and perform calculations on them. These microservice internally communicate through RabbitMQ.
 
 ## Project Architecture
