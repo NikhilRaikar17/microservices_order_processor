@@ -1,0 +1,11 @@
+name: Test Cron Job
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # Runs every 10 minutes
+
+jobs:
+  test-cron:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "This is a test run at $(date)!"
